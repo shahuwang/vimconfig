@@ -1,0 +1,84 @@
+set nocompatible
+filetype off
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+Plugin 'gmarik/Vundle.vim'
+Plugin 'tpope/vim-fugitive'
+Plugin 'scrooloose/nerdtree'
+"Plugin 'scrooloose/syntastic'
+Plugin 'L9'
+Plugin 'git://git.wincent.com/command-t.git'
+Plugin 'tomasr/molokai'
+Plugin 'nvie/vim-flake8'
+Plugin 'majutsushi/tagbar'
+Plugin 'davidhalter/jedi-vim'
+Plugin 'ervandew/supertab'
+Plugin 'Lokaltog/vim-powerline'
+Plugin 'hallettj/jslint.vim'
+"Plugin 'bling/vim-airline'
+"'\be' (normal open)  or
+"'\bs' (force horizontal split open)  or
+"'\bv' (force vertical split open)
+Plugin 'vim-scripts/bufexplorer.zip'
+call vundle#end()
+filetype plugin indent on
+filetype on
+nmap <F8> :TagbarToggle<CR>
+map <C-n> :NERDTreeToggle<CR>
+nmap <F12> :MBEToggle<CR>
+"保存的时候进行格式判断
+autocmd BufWritePost *.py call Flake8()
+let g:tagbar_ctags_bin = 'ectags'
+autocmd FileType python setlocal completeopt-=preview
+set number
+set expandtab
+set tabstop=8
+set shiftwidth=4
+set softtabstop=4
+set autoindent
+syntax on
+filetype plugin indent on
+filetype plugin on
+highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+match OverLength /\%81v.\+/
+set guioptions-=m
+set guioptions-=T
+map <silent> <F2> :if &guioptions =~# 'T' <Bar>
+        \set guioptions-=T <Bar>
+        \set guioptions-=m <bar>
+    \else <Bar>
+        \set guioptions+=T <Bar>
+        \set guioptions+=m <Bar>
+    \endif<CR>
+set showcmd
+set foldmethod=indent
+set foldlevel=99
+set hlsearch
+set linebreak
+set guifont=Consolas\ for\ Powerline\ 12
+set t_Co=256
+colorscheme molokai
+let g:molokai_original = 1
+let g:flake8_ignore=""
+set mousemodel=popup
+set vb t_vb=
+set ruler
+let g:Powerline_symbols = 'fancy'
+"let g:airline#extensions#tabline#enabled = 1
+"let g:airline#extensions#tabline#left_sep = ' '
+"let g:airline#extensions#tabline#left_alt_sep = '|'
+"let g:airline_powerline_fonts = 1
+"let g:airline_theme="molokai"
+" Add the virtualenv's site-packages to vim path
+py << EOF
+import os.path
+import sys
+import vim
+if 'VIRTUAL_ENV' in os.environ:
+    project_base_dir = os.environ['VIRTUAL_ENV']
+    sys.path.insert(0, project_base_dir)
+    activate_this = os.path.join(project_base_dir,'bin/activate_this.py')
+    execfile(activate_this, dict(__file__=activate_this))
+EOF
+
+
