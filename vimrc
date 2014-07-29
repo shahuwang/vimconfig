@@ -1,68 +1,94 @@
-execute pathogen#infect()
+set nocompatible
 filetype off
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
-
-Bundle 'Blackrush/vim-gocode'
-Bundle 'Valloric/YouCompleteMe'
-set autochdir
-set omnifunc=syntaxcomplete#Complete
-"let g:neocomplcache_enable_at_startup = 1
-"let g:neocomplcache_enable_smart_case =1
-"let g:neocomplcache_min_syntax_length=1
-"let g:neocomplcache_enable_auto_select=1
-inoremap <expr><TAB> pumvisible() ?"\<Down>":"\<TAB>"
-syntax on
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+Plugin 'gmarik/Vundle.vim'
+Plugin 'tpope/vim-fugitive'
+Plugin 'scrooloose/nerdtree'
+"Plugin 'scrooloose/syntastic'
+Plugin 'L9'
+Plugin 'git://git.wincent.com/command-t.git'
+Plugin 'tomasr/molokai'
+Plugin 'nvie/vim-flake8'
+Plugin 'majutsushi/tagbar'
+Plugin 'Lokaltog/vim-powerline'
+Plugin 'hallettj/jslint.vim'
+Plugin 'jnwhiteh/vim-golang'
+Plugin 'Blackrush/vim-gocode'
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'dgryski/vim-godef'
+Plugin 'nsf/gocode',{'rtp':'vim/'}
+Plugin 'jiangmiao/auto-pairs'
+"Plugin 'bling/vim-airline'
+"'\be' (normal open)  or
+"'\bs' (force horizontal split open)  or
+"'\bv' (force vertical split open)
+Plugin 'vim-scripts/bufexplorer.zip'
+call vundle#end()
+filetype plugin indent on
+filetype on
+nmap <F8> :TagbarToggle<CR>
+map <C-n> :NERDTreeToggle<CR>
+nmap <F12> :MBEToggle<CR>
+"保存的时候进行格式判断
+autocmd BufWritePost *.py call Flake8()
+let g:tagbar_ctags_bin = 'ectags'
+autocmd FileType python setlocal completeopt-=preview
 set number
-set modeline
-set mouse=a
+set expandtab
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
 set autoindent
-set ts=4 sts=4 sw=4 expandtab
+syntax on
+filetype plugin indent on
+filetype plugin on
+highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+match OverLength /\%81v.\+/
+set guioptions-=m
+set guioptions-=T
+map <silent> <F2> :if &guioptions =~# 'T' <Bar>
+        \set guioptions-=T <Bar>
+        \set guioptions-=m <bar>
+    \else <Bar>
+        \set guioptions+=T <Bar>
+        \set guioptions+=m <Bar>
+    \endif<CR>
+set showcmd
+set foldmethod=indent
+set foldlevel=99
 set hlsearch
 set linebreak
-set textwidth=80
-set showmatch
-
-filetype plugin indent on 
-filetype plugin on
+set guifont=Consolas\ for\ Powerline\ 12
+set t_Co=256
 colorscheme molokai
 let g:molokai_original = 1
-set runtimepath+=$GOROOT/misc/vim
+let g:flake8_ignore=""
+set mousemodel=popup
+set vb t_vb=
+set ruler
+let g:Powerline_symbols = 'fancy'
+
+set omnifunc=syntaxcomplete#Complete
 autocmd FileType go compiler go
-set nocompatible
-nmap <F8> :TagbarToggle<CR>
-let g:tagbar_left=1
-map <C-n> :NERDTreeToggle<CR>
-set nobackup
-let g:ycm_global_ycm_extra_conf = '/Users/guoku/.ycm_extra_conf.py'
-let Tlist_Ctags_Cmd='/usr/local/bin/ctags'
-set backspace=indent,eol,start
-set completeopt-=preview
-set completeopt=menuone,longest
-set laststatus=2
 autocmd FileType go autocmd BufWritePre <buffer> Fmt
 imap <C-o> <C-x><C-o>
-" Enable omni completion. 
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS 
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags 
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS 
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete 
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags 
-completefunc=youcompleteme#Complete
-let g:ycm_global_ycm_extra_conf = ""
-let g:ycm_key_list_select_completion = ['<TAB>','<Down>']
 let g:godef_command="godef"
-set macatsui
-set macmeta
-set fillchars+=stl:,stlnc:
-let g:Powerline_cache_enabled=1
-let g:Powerline_symbols = 'fancy'
-set rtp+=/Library/Python/2.7/site-packages/Powerline-beta-py2.7.egg/powerline/bindings/vim
-set nocompatible   " Disable vi-compatibility
-set laststatus=2   " Always show the statusline
-set guifont=Consolas\ for\ Powerline:h15
-set t_Co=256
-
+let g:ycm_global_ycm_extra_conf = '/home/rickey/.ycm_extra_conf.py'
+let g:ycm_key_list_select_completion = ['<TAB>','<Down>']
+let g:ycm_server_keep_logfiles = 1
+let g:ycm_server_log_level = 'debug'
+" Add the virtualenv's site-packages to vim path
+py << EOF
+import os.path
+import sys
+import vim
+if 'VIRTUAL_ENV' in os.environ:
+    project_base_dir = os.environ['VIRTUAL_ENV']
+    sys.path.insert(0, project_base_dir)
+    activate_this = os.path.join(project_base_dir,'bin/activate_this.py')
+    execfile(activate_this, dict(__file__=activate_this))
+EOF
 
 let g:tagbar_type_go = {
     \ 'ctagstype' : 'go',
@@ -90,6 +116,5 @@ let g:tagbar_type_go = {
     \ },
     \ 'ctagsbin'  : 'gotags',
     \ 'ctagsargs' : '-sort -silent'
-\ }
+    \ }
 
-  
