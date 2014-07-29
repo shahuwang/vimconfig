@@ -60,7 +60,6 @@ let g:Powerline_symbols = 'fancy'
 set rtp+=/Library/Python/2.7/site-packages/Powerline-beta-py2.7.egg/powerline/bindings/vim
 set nocompatible   " Disable vi-compatibility
 set laststatus=2   " Always show the statusline
-" For powerline font in MacVim
 set guifont=Consolas\ for\ Powerline:h15
 set t_Co=256
 
