@@ -68,7 +68,7 @@ set mousemodel=popup
 set vb t_vb=
 set ruler
 let g:Powerline_symbols = 'fancy'
-
+ let g:JSLintHighlightErrorLine = 0 
 set omnifunc=syntaxcomplete#Complete
 autocmd FileType go compiler go
 autocmd FileType go autocmd BufWritePre <buffer> Fmt
