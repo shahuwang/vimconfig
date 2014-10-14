@@ -7,21 +7,21 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'scrooloose/nerdtree'
 "Plugin 'scrooloose/syntastic'
 Plugin 'L9'
-Plugin 'git://git.wincent.com/command-t.git'
+Plugin 'wincent/command-t'
 Plugin 'tomasr/molokai'
 Plugin 'nvie/vim-flake8'
 Plugin 'majutsushi/tagbar'
 Plugin 'Lokaltog/vim-powerline'
 Plugin 'hallettj/jslint.vim'
-Plugin 'jnwhiteh/vim-golang'
+Plugin 'fatih/vim-go'
 Plugin 'Blackrush/vim-gocode'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'dgryski/vim-godef'
 Plugin 'nsf/gocode',{'rtp':'vim/'}
 Plugin 'jiangmiao/auto-pairs'
 "Plugin 'bling/vim-airline'
-"'\be' (normal open)  or
-"'\bs' (force horizontal split open)  or
+"'\be' (normal open) or
+"'\bs' (force horizontal split open) or
 "'\bv' (force vertical split open)
 Plugin 'vim-scripts/bufexplorer.zip'
 call vundle#end()
@@ -30,10 +30,13 @@ filetype on
 nmap <F8> :TagbarToggle<CR>
 map <C-n> :NERDTreeToggle<CR>
 nmap <F12> :MBEToggle<CR>
+set autochdir
+set scrolloff=15
 "保存的时候进行格式判断
 autocmd BufWritePost *.py call Flake8()
 let g:tagbar_ctags_bin = 'ectags'
 autocmd FileType python setlocal completeopt-=preview
+autocmd FileType go setlocal completeopt-=preview
 set number
 set expandtab
 set tabstop=4
@@ -48,27 +51,32 @@ match OverLength /\%81v.\+/
 set guioptions-=m
 set guioptions-=T
 map <silent> <F2> :if &guioptions =~# 'T' <Bar>
-        \set guioptions-=T <Bar>
-        \set guioptions-=m <bar>
-    \else <Bar>
-        \set guioptions+=T <Bar>
-        \set guioptions+=m <Bar>
-    \endif<CR>
+\set guioptions-=T <Bar>
+\set guioptions-=m <bar>
+\else <Bar>
+\set guioptions+=T <Bar>
+\set guioptions+=m <Bar>
+\endif<CR>
 set showcmd
 set foldmethod=indent
 set foldlevel=99
 set hlsearch
 set linebreak
-set guifont=Consolas\ for\ Powerline\ 12
+set guifont=Consolas\ for\ Powerline\ 10
 set t_Co=256
 colorscheme molokai
 let g:molokai_original = 1
 let g:flake8_ignore=""
 set mousemodel=popup
+set mouse=nv
+set selection=exclusive
+set selectmode=mouse,key
+set ttymouse=xterm2
+set novisualbell
 set vb t_vb=
 set ruler
 let g:Powerline_symbols = 'fancy'
- let g:JSLintHighlightErrorLine = 0 
+let g:JSLintHighlightErrorLine = 0
 set omnifunc=syntaxcomplete#Complete
 autocmd FileType go compiler go
 autocmd FileType go autocmd BufWritePre <buffer> Fmt
@@ -89,32 +97,31 @@ if 'VIRTUAL_ENV' in os.environ:
     activate_this = os.path.join(project_base_dir,'bin/activate_this.py')
     execfile(activate_this, dict(__file__=activate_this))
 EOF
-
 let g:tagbar_type_go = {
-    \ 'ctagstype' : 'go',
-    \ 'kinds'     : [
-        \ 'p:package',
-        \ 'i:imports:1',
-        \ 'c:constants',
-        \ 'v:variables',
-        \ 't:types',
-        \ 'n:interfaces',
-        \ 'w:fields',
-        \ 'e:embedded',
-        \ 'm:methods',
-        \ 'r:constructor',
-        \ 'f:functions'
-    \ ],
-    \ 'sro' : '.',
-    \ 'kind2scope' : {
-        \ 't' : 'ctype',
-        \ 'n' : 'ntype'
-    \ },
-    \ 'scope2kind' : {
-        \ 'ctype' : 't',
-        \ 'ntype' : 'n'
-    \ },
-    \ 'ctagsbin'  : 'gotags',
-    \ 'ctagsargs' : '-sort -silent'
-    \ }
+\ 'ctagstype' : 'go',
+\ 'kinds' : [
+\ 'p:package',
+\ 'i:imports:1',
+\ 'c:constants',
+\ 'v:variables',
+\ 't:types',
+\ 'n:interfaces',
+\ 'w:fields',
+\ 'e:embedded',
+\ 'm:methods',
+\ 'r:constructor',
+\ 'f:functions'
+\ ],
+\ 'sro' : '.',
+\ 'kind2scope' : {
+\ 't' : 'ctype',
+\ 'n' : 'ntype'
+\ },
+\ 'scope2kind' : {
+\ 'ctype' : 't',
+\ 'ntype' : 'n'
+\ },
+\ 'ctagsbin' : 'gotags',
+\ 'ctagsargs' : '-sort -silent'
+\ }
 
