@@ -19,6 +19,7 @@ Plugin 'Valloric/YouCompleteMe'
 Plugin 'dgryski/vim-godef'
 Plugin 'nsf/gocode',{'rtp':'vim/'}
 Plugin 'jiangmiao/auto-pairs'
+Plugin 'hynek/vim-python-pep8-indent'
 "Plugin 'bling/vim-airline'
 "'\be' (normal open) or
 "'\bs' (force horizontal split open) or
