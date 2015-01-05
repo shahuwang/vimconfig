@@ -54,6 +54,10 @@ highlight OverLength ctermbg=red ctermfg=white guibg=#592929
 match OverLength /\%81v.\+/
 set guioptions-=m
 set guioptions-=T
+"与系统共享剪切板，尽量使用 vim-gnome
+set clipboard=unnamedplus
+"退出vim之后仍然保留剪切板数据，但是需要安装 xsel
+autocmd VimLeave * call system("xsel -ib", getreg("+"))
 map <silent> <F2> :if &guioptions =~# 'T' <Bar>
 \set guioptions-=T <Bar>
 \set guioptions-=m <bar>
