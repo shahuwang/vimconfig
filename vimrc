@@ -58,6 +58,7 @@ set guioptions-=T
 set clipboard=unnamedplus
 "退出vim之后仍然保留剪切板数据，但是需要安装 xsel
 autocmd VimLeave * call system("xsel -ib", getreg("+"))
+let NERDTreeIgnore = ['\.pyc$']
 map <silent> <F2> :if &guioptions =~# 'T' <Bar>
 \set guioptions-=T <Bar>
 \set guioptions-=m <bar>
