@@ -1,0 +1,113 @@
+set nocompatible
+filetype off
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+Plugin 'gmarik/Vundle.vim'
+Plugin 'tpope/vim-fugitive'
+Plugin 'scrooloose/nerdtree'
+Plugin 'L9'
+Plugin 'wincent/command-t'
+Plugin 'tomasr/molokai'
+Plugin 'nvie/vim-flake8'
+Plugin 'majutsushi/tagbar'
+Plugin 'Lokaltog/vim-powerline'
+Plugin 'jiangmiao/auto-pairs'
+"Plugin 'Valloric/YouCompleteMe'
+Plugin 'elixir-lang/vim-elixir'
+Plugin 'jnwhiteh/vim-golang'
+Plugin 'nsf/gocode',{'rtp':'vim/'}
+Plugin 'Blackrush/vim-gocode'
+Plugin 'hynek/vim-python-pep8-indent'
+Plugin 'dgryski/vim-godef'
+Plugin 'MattesGroeger/vim-bookmarks'
+Plugin 'wting/rust.vim'
+Plugin 'Shutnik/jshint2.vim'
+Plugin 'Valloric/MatchTagAlways'
+Plugin 'tpope/vim-commentary'
+Plugin 'vim-scripts/bufexplorer.zip'
+"Plugin 'scrooloose/syntastic'
+"Plugin 'bling/vim-airline'
+"'\be' (normal open)  or
+"'\bs' (force horizontal split open)  or
+"'\bv' (force vertical split open)
+call vundle#end()
+filetype plugin indent on
+filetype on
+nmap <F8> :TagbarToggle<CR>
+map <C-n> :NERDTreeToggle<CR>
+nmap <F12> :MBEToggle<CR>
+nnoremap mt :MtaJumpToOtherTag<CR>
+set encoding=utf-8
+"保存的时候进行格式判断
+autocmd FileType python map <buffer> <F7> :call Flake8()<CR>
+autocmd BufWritePost *.py call Flake8()
+let g:flake8_show_quickfix=0
+let g:flake8_quickfix_height=3
+let g:flake8_ignore='F403'
+let g:tagbar_ctags_bin = 'ectags'
+set omnifunc=syntaxcomplete#Complete
+"let g:airline_powerline_fonts = 1
+autocmd FileType python setlocal completeopt-=preview
+autocmd FileType go setlocal completeopt-=preview
+set autoindent
+set smartindent
+set number
+set noswapfile
+set expandtab
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
+set autochdir
+syntax on
+filetype plugin indent on
+filetype plugin on
+autocmd FileType go compiler go
+autocmd FileType go autocmd BufWritePre <buffer> Fmt
+imap <C-o> <C-x> <C-o>
+let g:godef_command="godef"
+let g:JSLintHighlightErrorLine=0
+highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+match OverLength /\%81v.\+/
+let NERDTreeIgnore = ['\.pyc$']
+let NERDTreeShowBookmarks=1
+"let g:NERDTreeDirArrows = 1
+"let g:NERDTreeDirArrowExpandable = '?'
+"let g:NERDTreeDirArrowCollapsible = '?'
+set guioptions-=m
+set guioptions-=T
+map <silent> <F2> :if &guioptions =~# 'T' <Bar>
+        \set guioptions-=T <Bar>
+        \set guioptions-=m <bar>
+    \else <Bar>
+        \set guioptions+=T <Bar>
+        \set guioptions+=m <Bar>
+    \endif<CR>
+set showcmd
+set foldmethod=indent
+set foldlevel=99
+set hlsearch
+set linebreak
+set clipboard=unnamedplus
+autocmd VimLeave * call system("xsel -ib", getreg("+"))
+set guifont=Consolas:h12:b:cANSI
+set t_Co=256
+colorscheme molokai
+let g:molokai_original = 1
+let g:flake8_ignore="F403"
+set mousemodel=popup
+set mouse=a
+if has("win32")
+  set visualbell t_vb=  "关闭visual bell
+  au GuiEnter * set t_vb= "关闭beep
+endif
+set ruler
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+let jshint2_read = 1
+let jshint2_save = 1
+let jshint2_height = 5
+let g:Powerline_symbols = 'fancy'
+source $VIMRUNTIME/delmenu.vim 
+source $VIMRUNTIME/menu.vim
+language messages zh_CN.utf-8
